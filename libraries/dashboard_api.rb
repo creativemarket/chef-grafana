@@ -36,7 +36,11 @@ module GrafanaCookbook
       request = Net::HTTP::Post.new('/api/dashboards/db')
       request.add_field('Cookie', "grafana_user=#{grafana_options[:user]}; grafana_sess=#{session_id};")
       request.add_field('Content-Type', 'application/json;charset=utf-8;')
-      dashboard_source_file = File.expand_path("../files/default/#{dashboard_options[:source]}.json", File.dirname(__FILE__))
+      if !dashboard_options[:path].nil?
+        dashboard_source_file = dashboard_options[:path]
+      else
+        dashboard_source_file = File.expand_path("../files/default/#{dashboard_options[:source]}.json", File.dirname(__FILE__))
+      end
       dash_hash = {
         'dashboard' => JSON.parse(File.read(dashboard_source_file)),
         'overwrite' => dashboard_options[:overwrite]
