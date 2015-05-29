@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: grafana
-# Recipe:: default
+# Recipe:: install
 #
 # Copyright 2014, Jonathan Tron
 #
