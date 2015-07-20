@@ -15,7 +15,7 @@ module GrafanaCookbook
       request.add_field('Content-Type', 'application/json;charset=utf-8')
       request.body = { 'User' => user, 'email' => '', 'Password' => password }.to_json
 
-      response = with_limited_retry tries: 10, exceptions: Errno::ECONNREFUSED do
+      response = with_limited_retry tries: 10, exceptions: Errno::ECONNREFUSED, Errno::ETIMEDOUT do
         http.request(request)
       end
 

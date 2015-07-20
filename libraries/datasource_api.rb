@@ -21,7 +21,7 @@ module GrafanaCookbook
       # When you want to debug the http request
       # http.set_debug_output $stdout
 
-      response = with_limited_retry tries: 10, exceptions: Errno::ECONNREFUSED do
+      response = with_limited_retry tries: 10, exceptions: Errno::ECONNREFUSED, Errno::ETIMEDOUT do
         http.request(request)
       end
 
@@ -46,7 +46,7 @@ module GrafanaCookbook
       request.add_field('Content-Type', 'application/json;charset=utf-8')
       request.body = db_options.to_json
 
-      response = with_limited_retry tries: 10, exceptions: Errno::ECONNREFUSED do
+      response = with_limited_retry tries: 10, exceptions: Errno::ECONNREFUSED, Errno::ETIMEDOUT do
         http.request(request)
       end
 
@@ -70,7 +70,7 @@ module GrafanaCookbook
       request.add_field('Cookie', "grafana_user=#{grafana_options[:user]}; grafana_sess=#{session_id};")
       request.add_field('Accept', 'application/json')
 
-      response = with_limited_retry tries: 10, exceptions: Errno::ECONNREFUSED do
+      response = with_limited_retry tries: 10, exceptions: Errno::ECONNREFUSED, Errno::ETIMEDOUT do
         http.request(request)
       end
 
@@ -93,7 +93,7 @@ module GrafanaCookbook
       request = Net::HTTP::Get.new('/api/datasources')
       request.add_field('Cookie', "grafana_user=#{grafana_options[:user]}; grafana_sess=#{session_id};")
 
-      response = with_limited_retry tries: 10, exceptions: Errno::ECONNREFUSED do
+      response = with_limited_retry tries: 10, exceptions: Errno::ECONNREFUSED, Errno::ETIMEDOUT do
         http.request(request)
       end
 
